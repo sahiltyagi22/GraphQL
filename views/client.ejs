@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphQL Data</title>
+</head>
+<body>
+    <h1>GraphQL Data</h1>
+    <div id="data"></div>
+
+    <script>
+        // Make a request to the Apollo Server endpoint
+        fetch('http://localhost:4001/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: '{ games { id title } }' }), // GraphQL query
+        })
+        .then(response => response.json())
+        .then(data => {
+            const games = data.data.games;
+            const dataDiv = document.getElementById('data');
+
+            // Display the fetched data in the browser
+            games.forEach(game => {
+                const gameDiv = document.createElement('div');
+                gameDiv.textContent = `ID: ${game.id}`;
+                dataDiv.appendChild(gameDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
